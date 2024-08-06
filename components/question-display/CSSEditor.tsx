@@ -4,8 +4,8 @@ import { Button } from "../ui/button";
 import AnswerBox from "./AnswerBox";
 import { useQuestion } from "@/context/QuestionContext";
 import { useAttempted } from "@/context/AttemptedContext";
-import { useToast } from "@/components/ui/use-toast";
 import { useInput } from "@/context/InputContext";
+import toast from "react-hot-toast";
 
 function convertCssStringToCamelCase(cssString: string) {
   // Split the input string by semicolons to get individual property-value pairs
@@ -38,7 +38,6 @@ const CSSEditor: React.FC = () => {
   const { setInputStyle } = useInput();
   const [cssInput, setCssInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
 
   useEffect(() => {
     setCssInput("");
@@ -58,9 +57,9 @@ const CSSEditor: React.FC = () => {
   const handleSubmit = () => {
     const isValid = validateCSS(cssInput);
     if (!isValid) {
-      toast({
-        variant: "destructive",
-        title: "Invalid CSS Format",
+      toast.error("Invalid CSS Format", {
+        duration: 4000,
+        position: "bottom-right",
       });
       return;
     }
@@ -104,24 +103,27 @@ const CSSEditor: React.FC = () => {
       if (response.ok) {
         if (responseData.isCorrect) {
           setAttemptedQuestions((prev) => [...prev, currentQuestion._id]);
-          toast({ title: "Submitted successfully!!!" });
+          toast.success("Submitted successfully!!!", {
+            duration: 4000,
+            position: "top-center",
+          });
           setCssInput("");
         } else {
-          toast({
-            title: "Wrong Answer! Please try again!",
-            variant: "destructive",
+          toast.error("Wrong Answer! Please try again!", {
+            duration: 4000,
+            position: "bottom-right",
           });
         }
       } else {
-        toast({
-          variant: "destructive",
-          title: "Failed to submit CSS",
+        toast.error("Failed to submit CSS", {
+          duration: 4000,
+          position: "bottom-right",
         });
       }
     } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "An error occurred while submitting CSS",
+      toast.error("An error occurred while submitting CSS", {
+        duration: 4000,
+        position: 'bottom-right',
       });
     } finally {
       setIsLoading(false);

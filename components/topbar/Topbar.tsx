@@ -14,12 +14,13 @@ import CountdownTimer from "./CountdownTimer";
 import QuestionPalette from "@/components/topbar/QuestionPallete";
 import { Toaster, toast } from "react-hot-toast";
 import Modal from "@/components/EndTestModal";
-import { clerkClient } from "@clerk/nextjs/server";
+import { useUser } from "@clerk/nextjs";
 
 const Topbar = ({ time }: { time: number }) => {
   const [showPalette, setShowPalette] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const userId = "user_123";
+  const {user} = useUser();
+
 
   const handleTimeUp = () => {
     toast.error("Time's Up", {
@@ -43,18 +44,6 @@ const Topbar = ({ time }: { time: number }) => {
 
   const endTest = async () => {
     // -NOTE: SHOULD ADD A WAY TO BAN REQUEST. WILL BE ADDED IN THE BACKEND. 
-    const res = await fetch('api/v1/banUser', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ userId }),
-    });
-
-    if (!res.ok) {
-      throw new Error("Failed to ban user");
-    }
-    const response = await res.json();
   }
 
   const confirmEndTest = () => {
@@ -105,6 +94,7 @@ const Topbar = ({ time }: { time: number }) => {
                   <DropdownMenuLabel>Username</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onSelect={openModal}>
+                  <DropdownMenuItem>
                     <p className="text-red-800 font-bold">End Test</p>
                   </DropdownMenuItem>
                 </DropdownMenuContent>

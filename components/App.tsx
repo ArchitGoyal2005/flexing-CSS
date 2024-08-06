@@ -36,10 +36,11 @@ async function getTime() {
 export default async function App() {
   const questions: Question[] = await getQuestions();
   const attemptedQuestions: string[] = await getAttemptedQuestions();
+  // -FIX: REMOVE THE CONST TIME TO GET THE CORRECT TIME AND UNCOMMENT getTime()
   // const time: number = await getTime();
-  const time = 10000000000;
+  const time = 1000;
 
-  if (time < 0) return <QuizEnd />;
+  if (time <= 0) return <QuizEnd />;
 
   return (
     <>
