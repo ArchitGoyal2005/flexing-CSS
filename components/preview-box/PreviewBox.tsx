@@ -11,7 +11,7 @@ const PreviewBox: React.FC = () => {
 
   return (
     <div className="relative bg-black rounded-xl mx-auto h-full w-[98%] max-w-[1000px] lg:ml-0 lg:mr-auto perspective-1000">
-      {Questions["easy_19"]({ inputStyle })}
+      {Questions["medium_2"]({ inputStyle })}
     </div>
   );
 };
